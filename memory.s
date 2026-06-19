@@ -85,3 +85,41 @@ memmov:
   pop rbp
   pop r13
   ret
+
+.global memcmp
+memcmp:
+  # memcmp(rdi = addr1 | rsi = addr2 | rdx = addr_len)
+  # Prologue
+  push rbp
+  mov rbp, rsp
+
+  xor ecx, ecx      # Iterator
+  mov r8, rdx       # Temp
+  xor eax, eax
+  xor r9d, r9d
+.memcmp_loop:
+  cmp rcx, rdx
+  jae .memcmp_epilogue
+  cmp r8, 8
+  jb .memcmp_n64b
+  mov rax, [rdi+rcx]
+  sub rax, [rsi+rcx]
+  jnz .memcmp_nequal
+  add rcx, 8
+  sub r8, 8
+  jmp .memcmp_loop
+.memcmp_n64b:
+  mov al, byte ptr [rdi+rcx]
+  sub al, byte ptr [rsi+rcx]
+  jnz .memcmp_nequal
+  inc rcx
+  jmp .memcmp_loop
+
+.memcmp_epilogue:
+  mov eax, r9d
+  mov rsp, rbp
+  pop rbp
+  ret
+.memcmp_nequal:
+  mov r9d, -1
+  jmp .memcmp_epilogue
