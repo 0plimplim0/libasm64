@@ -2,7 +2,7 @@
 
 .global memset
 memset:
-  # memset(rdi = frame_start | rsi = n_bytes | rdx = byte)
+  # memset(rdi = src_addr | rsi = n_bytes | rdx = byte)
   # Prologue
   push rbp
   mov rbp, rsp
@@ -31,4 +31,57 @@ memset:
   mov rax, rcx
   mov rsp, rbp
   pop rbp
+  ret
+
+.global memcpy
+memcpy:
+  # memcpy(rdi = src_addr | rsi = dest_addr | rdx = n_bytes)
+  # Prologue
+  push rbp
+  mov rbp, rsp
+  
+  xor ecx, ecx      # Iterator
+  mov r8, rdx       # Temp
+.memcpy_loop:
+  cmp rcx, rdx
+  jae .memcpy_epilogue
+  cmp r8, 8
+  jb .memcpy_n64b
+  mov rax, [rdi+rcx]
+  mov [rsi+rcx], rax
+  add rcx, 8
+  sub r8, 8
+  jmp .memcpy_loop
+.memcpy_n64b:
+  mov al, byte ptr [rdi+rcx]
+  mov byte ptr [rsi+rcx], al
+  inc rcx
+  jmp .memcpy_loop
+
+.memcpy_epilogue:
+  mov rsp, rbp
+  pop rbp
+  ret
+
+# TODO: refactor this bc is not optimal
+.global memmov
+memmov:
+  # memmov(rdi = src_addr | rsi = dest_addr | rdx = n_bytes)
+  # Prologue
+  push r13
+  push rbp
+  mov rbp, rsp
+
+  mov r13, rsi
+  sub rsp, rdx
+  mov rsi, rsp
+  call memcpy
+  mov rdi, rsp
+  mov rsi, r13
+  call memcpy
+
+.memmov_epilogue:
+  mov rsp, rbp
+  pop rbp
+  pop r13
   ret
