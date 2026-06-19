@@ -16,7 +16,7 @@ io_clear:
   mov edx, 7
   syscall
 
-  # Epiloge
+  # Epilogue
   mov rsp, rbp
   pop rbp
   ret
@@ -28,3 +28,61 @@ io_exit:
   mov eax, 60
   syscall
 
+.global io_print
+io_print:
+  # io_print(rdi = str_addr | rsi = str_len)
+  # Prologue
+  push r13
+  push rbp
+  mov rbp, rsp
+  
+  mov r13, rdi      # str_addr
+  test rsi, rsi
+  jnz .io_print_nz
+  call strlen
+  mov rsi, rax
+.io_print_nz:
+  mov eax, 1
+  mov edi, 1
+  mov rdx, rsi
+  mov rsi, r13
+  syscall
+
+  # Epilogue
+  mov rsp, rbp
+  pop rbp
+  pop r13
+  ret
+
+.global io_error
+io_error:
+  # io_error(rdi = str_addr | rsi = str_len | rdx = err_num)
+  # if err_num == 0 : print; ret; else : print; exit;
+  # Prologue
+  push r13
+  push r14
+  push rbp
+  mov rbp, rsp
+  
+  mov r14, rdx
+  mov r13, rdi
+  test rsi, rsi
+  jnz .io_error_nz
+  call strlen
+  mov rsi, rax
+.io_error_nz:
+  mov eax, 1
+  mov edi, 2
+  mov rdx, rsi
+  mov rsi, r13
+  syscall
+  test r14, r14
+  jz .io_error_epilogue
+  mov edi, r14d
+  call io_exit
+.io_error_epilogue:
+  mov rsp, rbp
+  pop rbp
+  pop r14
+  pop r13
+  ret
