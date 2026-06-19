@@ -2,7 +2,7 @@
 
 .global strcmp
 strcmp:
-  # strcmp(rdi = str1_start | rsi = str2_start | rdx = chars_limit(default=no_limit))
+  # strcmp(rdi = str1_addr | rsi = str2_addr | rdx = chars_limit(default=no_limit))
   # Prologue
   push rbp
   mov rbp, rsp
@@ -43,7 +43,7 @@ strcmp:
 
 .global strlen
 strlen:
-  # strlen(rdi = str_start | rsi = limiter(default=0x0))
+  # strlen(rdi = str_addr | rsi = limiter(default=0x0))
   #Prologue
   push rbp
   mov rbp, rsp
@@ -61,7 +61,7 @@ strlen:
 
 .global findc
 findc:
-  # findc(rdi = str_start | rsi = char_obj) | Returns offset
+  # findc(rdi = str_addr | rsi = char_obj) | Returns offset
   # Prologue
   push rbp
   mov rbp, rsp
@@ -80,7 +80,7 @@ findc:
 
 .global strrev
 strrev:
-  # strrev(rdi = str_start | rsi = str_len)
+  # strrev(rdi = str_addr | rsi = str_len)
   # Prologue
   push rbp
   mov rbp, rsp
@@ -108,7 +108,7 @@ strrev:
 .global uatoi
 atoi:
   # WARNING: Currently only supports 32-bits nums
-  # atoi(rdi = str_start)
+  # atoi(rdi = str_addr)
   # Prologue
   push rbx
   push rbp
@@ -137,7 +137,7 @@ atoi:
 .global uitoa
 itoa:
   # WARNING: Currently only supports 16-bit nums
-  # itoa(rdi = integer | rsi = buff_start)
+  # itoa(rdi = integer | rsi = buff_addr)
   # Prologue
   push rbx
   push rbp
@@ -167,4 +167,119 @@ itoa:
   mov rsp, rbp
   pop rbp
   pop rbx
+  ret
+
+.global to_upper
+to_upper:
+  # to_upper(rdi = str_addr)
+  # Prologue
+  push rbp
+  mov rbp, rsp
+
+  xor eax, eax      # Container(?)
+  xor ecx, ecx      # Iterator
+.to_upper_loop:
+  mov al, byte ptr [rdi+rcx]
+  test al, al
+  jz .to_upper_epilogue
+  cmp al, 0x61
+  jb .to_upper_nl
+  cmp al, 0x7A
+  ja .to_upper_nl
+  and al, 0xDF
+  mov byte ptr [rdi+rcx], al
+.to_upper_nl:
+  inc ecx
+  jmp .to_upper_loop
+  
+.to_upper_epilogue:
+  mov rsp, rbp
+  pop rbp
+  ret
+
+.global to_upper_raw
+to_upper_raw:
+  # to_upper_raw(rdi = str_addr | rsi = str_len)
+  # Prologue
+  push rbp
+  mov rbp, rsp
+
+  xor ecx, ecx      # Iterator
+  mov rax, 0xDFDFDFDFDFDFDFDF
+  mov r8d, esi      # Temp
+.to_upper_raw_loop:
+  cmp ecx, esi
+  jae .to_upper_raw_epilogue
+  cmp r8d, 8
+  jb .to_upper_raw_n64b
+  and [rdi+rcx], rax
+  add ecx, 8
+  sub r8d, 8
+  jmp .to_upper_raw_loop
+.to_upper_raw_n64b:
+  and byte ptr [rdi+rcx], al
+  inc ecx
+  jmp .to_upper_raw_loop
+
+.to_upper_raw_epilogue:
+  mov rsp, rbp
+  pop rbp
+  ret
+
+.global to_lower
+to_lower:
+  # to_lower(rdi = str_addr)
+  # Prologue
+  push rbp
+  mov rbp, rsp
+
+  xor eax, eax      # Container(?)
+  xor ecx, ecx      # Iterator
+.to_lower_loop:
+  mov al, byte ptr [rdi+rcx]
+  test al, al
+  jz .to_lower_epilogue
+  cmp al, 0x41
+  jb .to_lower_nl
+  cmp al, 0x5A
+  ja .to_lower_nl
+  or al, 0x20
+  mov byte ptr [rdi+rcx], al
+.to_lower_nl:
+  inc ecx
+  jmp .to_lower_loop
+  
+.to_lower_epilogue:
+  mov rsp, rbp
+  pop rbp
+  ret
+
+
+.global to_lower_raw
+to_lower_raw:
+  # to_lower_raw(rdi = str_addr | rsi = str_len)
+  # Prologue
+  push rbp
+  mov rbp, rsp
+
+  xor ecx, ecx      # Iterator
+  mov rax, 0x2020202020202020
+  mov r8d, esi      # Temp
+.to_lower_raw_loop:
+  cmp ecx, esi
+  jae .to_lower_raw_epilogue
+  cmp r8d, 8
+  jb .to_lower_raw_n64b
+  or [rdi+rcx], rax
+  add ecx, 8
+  sub r8d, 8
+  jmp .to_lower_raw_loop
+.to_lower_raw_n64b:
+  or byte ptr [rdi+rcx], al
+  inc ecx
+  jmp .to_lower_raw_loop
+
+.to_lower_raw_epilogue:
+  mov rsp, rbp
+  pop rbp
   ret
