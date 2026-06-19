@@ -86,3 +86,27 @@ io_error:
   pop r14
   pop r13
   ret
+
+.global io_read
+io_read:
+  # io_read(rdi = buff_addr | rsi = buff_len)
+  # Prologue
+  push rbp
+  mov rbp, rsp
+
+  test esi, esi
+  jz .io_read_nl
+  
+  mov rdx, rsi
+  mov rsi, rdi
+  xor edi, edi
+  xor eax, eax
+  syscall
+
+  #Epilogue
+  mov rsp, rbp
+  pop rbp
+  ret
+.io_read_nl:
+  mov edi, -15
+  call io_exit
