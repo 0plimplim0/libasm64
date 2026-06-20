@@ -283,3 +283,52 @@ to_lower_raw:
   mov rsp, rbp
   pop rbp
   ret
+
+.global strcat
+strcat:
+  # strcat(rdi = dest_addr | rsi = str1_addr | rdx = str2_addr)
+  # Prologue
+  push rbx
+  push r12
+  push r13
+  push r14
+  push rbp
+  mov rbp, rsp
+
+  mov r12, rdi      # dest_addr
+  mov r13, rsi      # str1_addr
+  mov r14, rdx      # str2_addr
+  mov rdi, rsi
+  xor esi, esi
+  call strlen
+  mov ebx, eax
+  mov rsi, r12
+  mov rdi, r13
+  mov rdx, rax
+  call memcpy
+  add r12, rbx
+  mov rdi, r14
+  xor esi, esi
+  call strlen
+  mov rsi, r12
+  mov rdi, r14
+  mov edx, eax
+  call memcpy
+
+  # Epilogue
+  mov rsp, rbp
+  pop rbp
+  pop r14
+  pop r13
+  pop r12
+  pop rbx
+  ret
+
+.global strtrim
+strtrim:
+  # strtrim(rdi = str_addr | rsi = char)
+
+.global strsplit
+strsplit:
+  # strsplit(rdi = dest_addr | rsi = str_addr | rdx = limiter(default=0x20))
+
