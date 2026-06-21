@@ -324,11 +324,36 @@ strcat:
   pop rbx
   ret
 
-.global strtrim
-strtrim:
-  # strtrim(rdi = str_addr | rsi = char)
+.global strstrip
+strstrip:
+  # strstrip(rdi = str_addr | rsi = char)
+  # Prologue
+  push rbp
+  mov rbp, rsp
+
+  xor ecx, ecx      # Ptr1
+  xor eax, eax      # Ptr2
+  xor r8d, r8d      # Temp
+.strstrip_loop:
+  mov r8b, byte ptr [rdi+rax]
+  test r8b, r8b
+  jz .strstrip_strend
+  cmp r8b, sil
+  jne .strstrip_neq
+  inc eax
+  jmp .strstrip_loop
+.strstrip_neq:
+  mov byte ptr [rdi+rcx], r8b
+  inc ecx
+  inc eax
+  jmp .strstrip_loop
+.strstrip_strend:
+  mov byte ptr [rdi+rcx], 0x0
+  # Epilogue
+  mov rsp, rbp
+  pop rbp
+  ret
 
 .global strsplit
 strsplit:
   # strsplit(rdi = dest_addr | rsi = str_addr | rdx = limiter(default=0x20))
-
