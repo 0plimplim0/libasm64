@@ -1,0 +1,28 @@
+.intel_syntax noprefix
+
+.global io_purge
+io_purge:
+  # io_purge(rdi = fd)
+  # Prologue
+  push r12
+  push rbp
+  mov rbp, rsp
+  
+  mov r12, rdi
+  sub rsp, 256
+.loop:
+  mov eax, 0
+  mov rdi, r12
+  mov rsi, rsp
+  mov edx, 256
+  syscall
+  cmp eax, 0
+  jbe .prologue
+  cmp byte ptr [rsp+rax-1], 0x0A
+  je .prologue
+  jmp .loop
+.prologue:
+  mov rsp, rbp
+  pop rbp
+  pop r12
+  ret
