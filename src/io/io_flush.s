@@ -3,7 +3,7 @@
 .global io_flush
 io_flush:
   # io_flush(rdi = struct_addr)
-  # struct: 0-7 = fd | 8-15 = buff_addr | 16-23 = counter | 24-31 = buff_size
+  # struct: 0-7 = fd | 8-15 = buff_addr | 16-23 = counter | 24-30 = buff_size | 31 = buff_type
   
   # Prologue
   push r12
