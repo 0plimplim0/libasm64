@@ -1,5 +1,7 @@
 .intel_syntax noprefix
 
+# TODO: Update this to IO_STREAM format
+
 .global io_purge
 io_purge:
   # io_purge(rdi = fd)

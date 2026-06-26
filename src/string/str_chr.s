@@ -1,5 +1,7 @@
 .intel_syntax noprefix
 
+
+# TODO: Return -1 if char not found
 .global str_chr
 str_chr:
   # str_chr(rdi = str_addr | rsi = char_obj) | Returns offset

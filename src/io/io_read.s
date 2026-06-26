@@ -1,5 +1,7 @@
 .intel_syntax noprefix
 
+# TODO: Update this to IO_STREAM format
+
 .global io_read
 io_read:
   # io_read(rdi = buff_addr | rsi = buff_len)
@@ -22,4 +24,4 @@ io_read:
   ret
 .nl:
   mov edi, -15
-  call io_exit
+  call sys_exit

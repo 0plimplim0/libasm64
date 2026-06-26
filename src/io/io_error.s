@@ -25,7 +25,7 @@ io_error:
   test r14, r14
   jz .epilogue
   mov edi, r14d
-  call io_exit
+  call sys_exit
 .epilogue:
   mov rsp, rbp
   pop rbp
