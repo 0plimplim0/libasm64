@@ -1,5 +1,7 @@
 .intel_syntax noprefix
 
+# UPDATE THIS to IO_STREAM counters change
+
 .global io_flush
 io_flush:
   # io_flush(rdi = struct_addr)

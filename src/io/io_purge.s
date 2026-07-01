@@ -1,6 +1,8 @@
 .intel_syntax noprefix
 
 # TODO: Update this to IO_STREAM format
+# NEW: io_purge(IO_STREAM)
+# Just set IO_STREAM counters to 0
 
 .global io_purge
 io_purge:

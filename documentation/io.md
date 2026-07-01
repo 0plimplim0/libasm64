@@ -13,7 +13,7 @@
 ## Structures
 
 ### IO_STREAM
-**32 bytes**: (0-7 = FD | 8-15 = buff_addr | 16-23 = counter | 24-27 =  buff_size | 28 = buff_own | 29 = buff_type | 30-31 = padding)
+**32 bytes**: (0-7 = FD | 8-15 = buff_addr | 16-19 = write_ptr | 20-23 = read_ptr | 24-27 =  buff_size | 28 = buff_own | 29 = buff_type | 30-31 = padding)
 
 ## Functions
 

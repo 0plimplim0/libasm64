@@ -1,6 +1,7 @@
 .intel_syntax noprefix
 
 # TODO: Update this to IO_STREAM format
+# NEW: io_read(IO_STREAM, dest_addr, n_bytes)
 
 .global io_read
 io_read:
