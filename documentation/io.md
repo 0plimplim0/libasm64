@@ -4,16 +4,23 @@
 
 - [io_clear](#io_clear)
 - [io_error](#io_error)
-- [io_flush](#io_flush)
 - [io_print](#io_print)
-- [io_purge](#io_purge)
-- [io_read](#io_read)
-- [io_write](#io_write)
 
 ## Structures
 
 ### IO_STREAM
-**32 bytes**: (0-7 = FD | 8-15 = buff_addr | 16-19 = write_ptr | 20-23 = read_ptr | 24-27 =  buff_size | 28 = buff_own | 29 = buff_type | 30-31 = padding)
+| Bytes       | Field     | Size    |
+| :-----:     | :-----:   | :----:  |
+| **0 - 3**   | FD        | 4 bytes |
+| **4 - 11**  | buff_addr | 8 bytes |
+| **12 - 15** | write_ptr | 4 bytes |
+| **16 - 19** | read_ptr  | 4 bytes |
+| **20 - 23** | buff_size | 4 bytes |
+| **24**      | buff_type | 1 byte  |
+| **25**      | s_status  | 1 byte  |
+| **26**      | s_type    | 1 byte  |
+| **27**      | s_mode    | 1 byte  |
+| **28 - 31** | padding   | 4 bytes |
 
 ## Functions
 
@@ -39,16 +46,6 @@
 
 ---
 
-### io_flush
-**Flushes the buffer to its file descriptor.**
-
-**Inputs:**
-- `RDI`: [IO_STREAM_addr](#io_stream)
-
-**Returns:** n_bytes flushed in `RAX`.
-
----
-
 ### io_print
 **Sends a string to stdout**
 
@@ -57,38 +54,5 @@
 - `RSI`: str_len
 
 **Returns:** n_bytes written in `RAX`.
-
----
-
-### io_purge
-**Discards all unread bytes from an FD's input.**
-
-**Inputs:**
-- `RDI`: FD
-
-**Returns:** None.
-
----
-
-### io_read
-**Reads from stdin**
-
-**Inputs:**
-- `RDI`: buff_addr
-- `RSI`: buff_len
-
-**Returns:** n_bytes read in `RAX`.
-
----
-
-### io_write
-**Writes data to a IO_STREAM buffer**
-
-**Inputs:**
-- `RDI`: [IO_STREAM_addr](#io_stream)
-- `RSI`: data_addr
-- `RDX`: data_size
-
-**Returns:** None. (Modifies **IO_STREAM** buffer)
 
 ---
