@@ -15,6 +15,24 @@ io_open:
   mov r14, rdx      # IO_STREAM_addr
   mov rdx, r9       # mode
   test rsi, 0x40      # 0_CREAT
-  cmovz rdx, 0
+  xor ecx, ecx
+  cmovz edx, ecx
   mov eax, 2
   syscall
+  cmp eax, 0
+  jl .epilogue
+  mov dword ptr [r14], eax      # FD
+  mov qword ptr [r14+4], r12    # buff_addr
+  mov qword ptr [r14+12], 0     # Write/Read ptrs (4 | 4)
+  mov dword ptr [r14+20], r13d   # buff_size
+  # Rest of bytes not used for now
+  mov qword ptr [r14+24], 0     # The remaining bytes are not used for now
+  xor eax, eax
+
+.epilogue:
+  mov rsp, rbp
+  pop rbp
+  pop r14
+  pop r13
+  pop r12
+  ret
