@@ -1,28 +1,60 @@
 .intel_syntax noprefix
 
-# TODO: Update this to IO_STREAM format
-# NEW: io_read(IO_STREAM, dest_addr, n_bytes)
-
 .global io_read
 io_read:
-  # io_read(rdi = buff_addr | rsi = buff_len)
+  # io_read(rdi = IO_STREAM | rsi = dest_addr | rdx = n_bytes)
   # Prologue
+  push r12
+  push r13
+  push r14
   push rbp
   mov rbp, rsp
 
-  test esi, esi
-  jz .nl
-  
-  mov rdx, rsi
-  mov rsi, rdi
-  xor edi, edi
-  xor eax, eax
-  syscall
+  mov r12, rdi      # IO_STREAM
+  mov r13, rsi      # dest_addr
+  mov r14, rdx      # n_bytes
+  mov esi, dword ptr [r12+12]     # write_ptr
+  sub esi, dword ptr [r12+16]     # read_ptr
+  cmp r14d, esi
+  ja .nen
+  mov rsi, r13
+  mov rdi, qword ptr [r12+4]      # buff_addr
+  mov edx, dword ptr [r12+16]     # read_ptr
+  add rdi, rdx
+  mov edx, r14d
+  add dword ptr [r12+16], edx
+  call mem_cpy
+  jmp .epilogue
 
-  #Epilogue
+.nen:
+  # Here goes the loop code
+  mov rsi, r13
+  mov rdi, qword ptr [r12+4]      # buff_addr
+  mov edx, dword ptr [r12+16]     # read_ptr
+  add rdi, rdx
+  mov edx, dword ptr [r12+12]
+  sub edx, dword ptr [r12+16]
+  cmp edx, r14d
+  cmova edx, r14d
+  add r13, rdx
+  sub r14d, edx
+  call mem_cpy
+  test r14d, r14d
+  jz .epilogue
+  mov rdi, r12
+  call io_purge
+  mov eax, 0
+  mov edi, dword ptr [r12]
+  mov rsi, qword ptr [r12+4]
+  mov edx, dword ptr [r12+20]
+  add dword ptr [r12+12], edx
+  syscall
+  jmp .nen
+
+.epilogue:
   mov rsp, rbp
   pop rbp
+  pop r14
+  pop r13
+  pop r12
   ret
-.nl:
-  mov edi, -15
-  call sys_exit
