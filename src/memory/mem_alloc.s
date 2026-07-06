@@ -13,8 +13,8 @@ mem_alloc:
   push rbp
   mov rbp, rsp
 
-  test edx, edx         # If != 0: init;
-  jnz .init
+  cmp edx, 3         # If != 0: init;
+  je .init
   
   mov r12, rdi          # n_bytes
   add r12, 15
