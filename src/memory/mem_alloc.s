@@ -1,8 +1,13 @@
 .intel_syntax noprefix
+.section .bss
+.align 8
+_index_addr:
+  .quad 0
 
+.section .text
 .global mem_alloc
 mem_alloc:
-  # mem_alloc(rdi = n_bytes | rsi = index_addr | rdx = i_flag)
+  # mem_alloc(rdi = n_bytes)
   # Index header: 0-7 = num_blocks | 8-15 = closest_free
   # Index slot: 0-1 = status | 2-3 = position | 4-7 = size | 8-15 = block_addr
   # Block header: 0-7 = index_slot | 8-15 = padding
@@ -13,9 +18,10 @@ mem_alloc:
   push rbp
   mov rbp, rsp
 
-  cmp edx, 3         # If != 0: init;
-  je .init
-  
+  mov rsi, qword ptr [rip+_index_addr]
+  test rsi, rsi
+  jz .init
+.continue:
   mov r12, rdi          # n_bytes
   add r12, 15
   and r12, -16
@@ -105,6 +111,7 @@ mem_alloc:
   jmp .epilogue
 
 .init:
+  mov r13, rdi
   mov eax, 12
   xor edi, edi
   syscall
@@ -115,8 +122,10 @@ mem_alloc:
   syscall
   mov qword ptr [r12], 0      # n_slots
   mov qword ptr [r12+8], 0    # closest_free
-  mov rax, r12      # index_addr
-  jmp .epilogue
+  mov qword ptr [rip+_index_addr], r12
+  mov rdi, r13
+  mov rsi, r12
+  jmp .continue
 
 .epilogue:
   mov rsp, rbp
