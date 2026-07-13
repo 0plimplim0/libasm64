@@ -10,7 +10,9 @@ b_array_new:
   mov rbp, rsp
 
   cmp edi, 0xFFFFFFEF
-  ja .err
+  mov rcx, -1
+  cmovnz rax, rcx
+  jne .epilogue
   mov r12d, edi     # size
 
   test rsi, rsi
@@ -18,6 +20,8 @@ b_array_new:
   add edi, 16
   call mem_alloc
   test rax, rax
+  mov rcx, -2
+  cmovz rax, rcx
   jz .err
   mov rsi, rax      # addr
   mov byte ptr [rsi+4], 1     # ownership
@@ -35,7 +39,3 @@ b_array_new:
   pop rbp
   pop r12
   ret
-
-.err:
-  mov rax, -1
-  jmp .epilogue
