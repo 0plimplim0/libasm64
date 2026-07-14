@@ -22,7 +22,7 @@ b_array_new:
   test rax, rax
   mov rcx, -2
   cmovz rax, rcx
-  jz .err
+  jz .epilogue
   mov rsi, rax      # addr
   mov byte ptr [rsi+4], 1     # ownership
   jmp .continue
