@@ -1,8 +1,8 @@
 .intel_syntax noprefix
 
-.global b_array_new
-b_array_new:
-  # b_array_new(rdi = size | rsi = addr(optional))
+.global w_array_new
+w_array_new:
+  # w_array_new(rdi = size | rsi = addr(optional))
   # header = (0-3 = magic_n(0x59525241) | 4 = ownwership | 5-7 = padding | 8-11 = size | 12-15 = n_elements)
   # Prologue
   push r12
@@ -10,9 +10,9 @@ b_array_new:
   mov rbp, rsp
 
   mov r12d, edi     # size
-
   test rsi, rsi
   jnz .nmem
+  shl rdi, 1
   cmp rdi, 0xFFFFFFFFFFFFFFEF
   mov rcx, -4
   cmova rax, rcx
