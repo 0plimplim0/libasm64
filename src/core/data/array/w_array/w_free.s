@@ -12,5 +12,5 @@ w_array_free:
   je .exit
   call mem_free
   xor eax, eax
-.exit
+.exit:
   ret
