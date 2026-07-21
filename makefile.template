@@ -1,0 +1,25 @@
+CC       := gcc
+CFLAGS   := -Wall -Wextra -O2 \
+            -ffreestanding \
+            -fno-builtin \
+            -nostdinc \
+            -nostdlib \
+            -fno-stack-protector \
+            -Iinclude \
+            -Iinclude/core
+
+LDFLAGS  := -nostdlib -static -L. -lasm64
+
+BIN      := main
+SRCS     := main.c
+
+all: $(BIN)
+
+$(BIN): $(SRCS)
+	$(CC) $(CFLAGS) $(SRCS) $(LDFLAGS) -o $@
+
+clean:
+	rm -f $(BIN)
+
+.PHONY: all clean
+
