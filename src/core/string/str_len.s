@@ -2,14 +2,14 @@
 
 .global str_len
 str_len:
-  # str_len(rdi = str_addr | rsi = limiter(default=0x0))
+  # str_len(rdi = str_addr)
   #Prologue
   push rbp
   mov rbp, rsp
 
   xor eax, eax      # iterator
 .loop:
-  cmp byte ptr [rdi+rax], sil
+  cmp byte ptr [rdi+rax], 0
   je .end
   inc eax
   jmp .loop
