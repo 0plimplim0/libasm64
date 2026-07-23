@@ -19,7 +19,7 @@ io_open:
   cmovz edx, ecx
   mov eax, 2
   syscall
-  cmp eax, 0
+  cmp rax, 0
   jl .epilogue
   mov dword ptr [r14], eax      # FD
   mov qword ptr [r14+4], r12    # buff_addr

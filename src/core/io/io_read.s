@@ -7,10 +7,14 @@ io_read:
   push r12
   push r13
   push r14
+  push r15
   push rbp
   mov rbp, rsp
 
+  xor r15d, r15d
+  xor r8d, r8d
   mov r12, rdi      # IO_STREAM
+  mov eax, dword ptr [r12+20]
   mov r13, rsi      # dest_addr
   mov r14, rdx      # n_bytes
   mov esi, dword ptr [r12+12]     # write_ptr
@@ -24,10 +28,10 @@ io_read:
   mov edx, r14d
   add dword ptr [r12+16], edx
   call mem_cpy
+  mov r15d, r14d
   jmp .epilogue
 
 .nen:
-  # Here goes the loop code
   mov rsi, r13
   mov rdi, qword ptr [r12+4]      # buff_addr
   mov edx, dword ptr [r12+16]     # read_ptr
@@ -38,6 +42,10 @@ io_read:
   cmova edx, r14d
   add r13, rdx
   sub r14d, edx
+  add dword ptr [r12+16], edx
+  add r15d, edx
+  cmp eax, dword ptr [r12+20]
+  cmovb r14d, r8d
   call mem_cpy
   test r14d, r14d
   jz .epilogue
@@ -47,13 +55,22 @@ io_read:
   mov edi, dword ptr [r12]
   mov rsi, qword ptr [r12+4]
   mov edx, dword ptr [r12+20]
-  add dword ptr [r12+12], edx
   syscall
+  cmp eax, 0
+  jle .epilogue
+  add dword ptr [r12+12], eax
   jmp .nen
-
 .epilogue:
+  mov edi, dword ptr [r12+20]
+  cmp dword ptr [r12+12], edi
+  jb .nf
+  mov dword ptr [r12+20], 0
+.nf:
+  cmp rax, 0
+  cmovge eax, r15d
   mov rsp, rbp
   pop rbp
+  pop r15
   pop r14
   pop r13
   pop r12

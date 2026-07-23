@@ -17,15 +17,15 @@ typedef struct {
 } __attribute__((packed)) IO_STREAM;
 
 void clear(void);
-int scan(char* dest_addr, uint32_t n_bytes);
-int print(const char* str);
-void error(const char* msg, int err_code);
-void fflush(IO_STREAM* s);
-int fopen(const char* filename, int flags, IO_STREAM* s, size_t buff_addr, uint32_t buff_size, int mode);
-int fclose(IO_STREAM* s);
-void fpurge(IO_STREAM* s);
-int fread(IO_STREAM* s, size_t dest_addr, uint32_t n_bytes);
-void fseek(IO_STREAM* s, uint32_t n_bytes, int whence);
-int fwrite(IO_STREAM* s, size_t src_addr, uint32_t n_bytes);
+int scan(char *dest_addr, uint32_t n_bytes);
+int print(const char *str);
+void error(const char *msg, int err_code);
+void fflush(IO_STREAM *s);
+int fopen(const char *filename, uint32_t flags, IO_STREAM *s, void *buff, uint32_t buff_size, uint32_t mode);
+void* fclose(IO_STREAM *s);
+void fpurge(IO_STREAM *s);
+int fread(IO_STREAM *s, void *dest, uint32_t n);
+void fseek(IO_STREAM *s, uint32_t n, uint32_t whence);
+int fwrite(IO_STREAM *s, const void *src, uint32_t n);
 
 #endif
