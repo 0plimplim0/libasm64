@@ -10,7 +10,7 @@ A modular low-level library ecosystem written in pure x86-64 Assembly. Its core 
 
 To compile and link the library you'll need the standard GNU development tools:
 * `as` (GNU Assembler)
-* `ar` (Archiver)
+* `ar` (GNU Archiver)
 * `make` (GNU Make)
 * `gcc` (GNU Compiler Collection)
 
