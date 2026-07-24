@@ -2,6 +2,6 @@
 #include "string_private.h"
 #include "defs.h"
 
-uint32_t strlen(const char *s) {
-  return str_len(s);
+void itoa64(int64_t i, char *s) {
+  str_itoa64(i, s);
 }

@@ -2,6 +2,6 @@
 #include "string_private.h"
 #include "defs.h"
 
-uint32_t strlen(const char *s) {
-  return str_len(s);
+uint64_t uatoi64(const char *s) {
+  return str_uatoi64(s);
 }

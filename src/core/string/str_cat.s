@@ -1,7 +1,7 @@
 .intel_syntax noprefix
 
 .global str_cat
-strcat:
+str_cat:
   # str_cat(rdi = dest_addr | rsi = str1_addr | rdx = str2_addr)
   # Prologue
   push rbx
