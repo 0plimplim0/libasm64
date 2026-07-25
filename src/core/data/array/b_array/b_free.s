@@ -12,6 +12,5 @@ b_array_free:
   cmp byte ptr [rdi+4], 0             # Ownership
   je .epilogue
   call mem_free
-  xor eax, eax
 .epilogue:
   ret

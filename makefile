@@ -16,7 +16,8 @@ CFLAGS   := -Wall -Wextra -O2 \
             -nostdlib \
             -fno-stack-protector \
             -I$(C_INCLUDE_DIR) \
-            -I$(C_INCLUDE_DIR)/core
+            -I$(C_INCLUDE_DIR)/core \
+						-I$(C_INCLUDE_DIR)/core/private
 
 SRCS := $(shell find $(SRC_DIR) -name "*.s")
 OBJS := $(patsubst $(SRC_DIR)/%.s, $(OBJ_DIR)/asm/%.o, $(SRCS))

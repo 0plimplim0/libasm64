@@ -6,7 +6,8 @@ CFLAGS   := -Wall -Wextra -O2 \
             -nostdlib \
             -fno-stack-protector \
             -Iinclude \
-            -Iinclude/core
+            -Iinclude/core \
+            -Iinclude/core/private
 
 LDFLAGS  := -nostdlib -static -L. -lasm64
 
