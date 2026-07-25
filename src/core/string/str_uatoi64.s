@@ -2,7 +2,6 @@
 
 .global str_uatoi64
 str_uatoi64:
-  # WARNING: Currently only supports 32-bits nums
   # str_atoi64(rdi = str_addr)
   # Prologue
   push rbx
@@ -19,7 +18,7 @@ str_uatoi64:
   je .epilogue
   sub sil, 0x30
   mul rbx
-  add eax, esi
+  add rax, rsi
   inc ecx
   jmp .loop
 
