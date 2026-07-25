@@ -1,17 +1,22 @@
 .intel_syntax noprefix
 
-.global str_uatoi64
-str_uatoi64:
-  # str_uatoi64(rdi = str_addr)
+.global str_aatoi64
+str_aatoi64:
+  # str_atoi64(rdi = str_addr)
   # Prologue
   push rbx
   push rbp
   mov rbp, rsp
-
+  
+  xor r8d, r8d
   xor eax, eax      # Sum
   xor ecx, ecx      # Iterator
   mov ebx, 10
   xor esi, esi
+  cmp byte ptr [rdi+rcx], 0x2D
+  jne .loop
+  inc r8d
+  inc ecx
 .loop:
   mov sil, byte ptr [rdi+rcx]
   cmp sil, 0x0
@@ -23,6 +28,10 @@ str_uatoi64:
   jmp .loop
 
 .epilogue:
+  cmp r8d, 0
+  je .nneg
+  neg rax
+.nneg:
   mov rsp, rbp
   pop rbp
   pop rbx
