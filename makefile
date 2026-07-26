@@ -1,3 +1,6 @@
+NPROCS := $(shell nproc 2>/dev/null || echo 2)
+MAKEFLAGS += -j$(NPROCS)
+
 AS      := as
 CC      := gcc
 AR      := ar
@@ -17,7 +20,7 @@ CFLAGS   := -Wall -Wextra -O2 \
             -fno-stack-protector \
             -I$(C_INCLUDE_DIR) \
             -I$(C_INCLUDE_DIR)/core \
-						-I$(C_INCLUDE_DIR)/core/private
+            -I$(C_INCLUDE_DIR)/core/private
 
 SRCS := $(shell find $(SRC_DIR) -name "*.s")
 OBJS := $(patsubst $(SRC_DIR)/%.s, $(OBJ_DIR)/asm/%.o, $(SRCS))
@@ -27,13 +30,15 @@ C_OBJS := $(patsubst $(C_BIND_DIR)/%.c, $(OBJ_DIR)/c/%.o, $(C_SRCS))
 
 TARGET := libasm64.a
 
+# 1. 'make' o 'make all' SOLO compila ensamblador
 all: $(TARGET)
 
-c: $(TARGET) $(C_OBJS)
-	$(AR) $(ARFLAGS) $(TARGET) $(C_OBJS)
-
 $(TARGET): $(OBJS)
-	$(AR) $(ARFLAGS) $@ $(OBJS)
+	$(AR) $(ARFLAGS) $@ $^
+
+# 2. 'make c' compila ASM + C y los empaqueta en el .a sin choques
+c: $(OBJS) $(C_OBJS)
+	$(AR) $(ARFLAGS) $(TARGET) $^
 
 $(OBJ_DIR)/asm/%.o: $(SRC_DIR)/%.s
 	@mkdir -p $(dir $@)

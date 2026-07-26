@@ -14,6 +14,7 @@ str_uitoa64:
   xor edi, edi      # Iterator
   mov ebx, 10
 .loop:
+  xor edx, edx
   div rbx
   mov rcx, rdx
   add rcx, 0x30
