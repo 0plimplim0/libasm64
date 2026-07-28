@@ -11,15 +11,15 @@ w_array_remove:
   xor eax, eax
 
   cmp dword ptr [rdi], 0x59525241
-  mov rcx, -1
+  mov ecx, -1
   cmovnz rax, rcx
   jnz .epilogue
   cmp dword ptr [rdi+12], 0
-  mov rcx, -3
+  mov ecx, -3
   cmovz rax, rcx
   jz .epilogue
   cmp esi, dword ptr [rdi+12]
-  mov rcx, -4
+  mov ecx, -4
   cmovae rax, rcx
   jae .epilogue
   mov ecx, dword ptr [rdi+12]

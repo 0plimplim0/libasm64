@@ -5,7 +5,7 @@ d_array_fill:
   xor eax, eax
   sub rdi, 16
   cmp dword ptr [rdi], 0x59525241
-  mov rcx, -1
+  mov ecx, -1
   cmovnz rax, rcx
   jnz .exit
   mov edx, dword ptr [rdi+8]

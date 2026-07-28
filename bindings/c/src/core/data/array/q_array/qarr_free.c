@@ -1,6 +1,6 @@
 #include "array.h"
 #include "array_private.h"
 
-void qarr_free(Q_ARRAY *addr) {
-  q_array_free(addr);
+int qarr_free(Q_ARRAY *addr) {
+  return q_array_free(addr);
 }

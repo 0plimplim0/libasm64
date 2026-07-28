@@ -5,14 +5,16 @@ d_array_get:
   xor eax, eax
   sub rdi, 16
   cmp dword ptr [rdi], 0x59525241
-  mov rcx, -1
-  cmovnz rax, rcx
-  jnz .exit
+  mov ecx, -1
+  jnz .err
   cmp esi, dword ptr [rdi+12]
-  mov rcx, -4
-  cmovae rax, rcx
-  jae .exit
+  mov ecx, -4
+  jae .err
   add rdi, 16
   mov eax, dword ptr [rdi+rsi*4]
 .exit:
   ret
+.err:
+  mov dword ptr [_errno+rip], ecx
+  ret
+  

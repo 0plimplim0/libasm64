@@ -1,6 +1,6 @@
 #include "array.h"
 #include "array_private.h"
 
-void darr_reverse(D_ARRAY *addr) {
-  d_array_reverse(addr);
+int darr_reverse(D_ARRAY *addr) {
+  return d_array_reverse(addr);
 }

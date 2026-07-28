@@ -6,15 +6,15 @@ q_array_replace:
   xor eax, eax
   sub rdi, 16
   cmp dword ptr [rdi], 0x59525241
-  mov rcx, -1
+  mov ecx, -1
   cmovnz rax, rcx
   jnz .exit
   cmp dword ptr [rdi+12], 0
-  mov rcx, -3
+  mov ecx, -3
   cmovz rax, rcx
   jz .exit
   cmp edx, dword ptr [rdi+12]
-  mov rcx, -4
+  mov ecx, -4
   cmovae rax, rcx
   jae .exit
   add rdi, 16

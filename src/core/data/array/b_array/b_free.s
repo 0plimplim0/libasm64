@@ -6,7 +6,7 @@ b_array_free:
   sub rdi, 16
   xor eax, eax
   cmp dword ptr [rdi], 0x59525241     # Magic Number
-  mov rcx, -1
+  mov ecx, -1
   cmovne rax, rcx
   jne .epilogue     # Invalid Magic Number
   cmp byte ptr [rdi+4], 0             # Ownership

@@ -26,15 +26,17 @@ b_array_insert:
   mov r8d, dword ptr [rdi+12]
   cmp edx, r8d
   mov rcx, -4
-  cmovae rax, rcx
-  jae .epilogue
+  cmova rax, rcx
+  ja .epilogue
 
   mov ecx, dword ptr [rdi+12]
-  dec ecx
   add rdi, 16
+  test ecx, ecx
+  jz .endloop
+  dec ecx
 .loop:
   cmp ecx, edx
-  jb .endloop
+  jl .endloop
   shl word ptr [rdi+rcx], 8
   dec ecx
   jmp .loop

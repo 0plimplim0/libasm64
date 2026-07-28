@@ -14,15 +14,13 @@ d_array_new:
   jnz .nmem
   shl rdi, 2
   cmp rdi, 0xFFFFFFFFFFFFFFEF
-  mov rcx, -4
-  cmova rax, rcx
-  ja .epilogue
+  mov ecx, -4
+  ja .err
   add rdi, 16
   call mem_alloc
   test rax, rax
-  mov rcx, -2
-  cmovz rax, rcx
-  jz .epilogue
+  mov ecx, -2
+  jz .err
   mov rsi, rax      # addr
   mov byte ptr [rsi+4], 1     # ownership
   jmp .continue
@@ -33,7 +31,10 @@ d_array_new:
   mov dword ptr [rsi+8], r12d   # size   
   mov dword ptr [rsi+12], 0     # n_elements
   lea rax, [rsi+16]
-  
+  jmp .epilogue
+.err:
+  mov dword ptr [_errno+rip], ecx
+  xor eax, eax
 .epilogue:
   mov rsp, rbp
   pop rbp

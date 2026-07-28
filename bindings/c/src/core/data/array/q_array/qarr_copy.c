@@ -2,6 +2,6 @@
 #include "array_private.h"
 #include "defs.h"
 
-void qarr_copy(const Q_ARRAY *src, Q_ARRAY *dest) {
-  q_array_copy(src, dest);
+int qarr_copy(const Q_ARRAY *src, Q_ARRAY *dest) {
+  return q_array_copy(src, dest);
 }

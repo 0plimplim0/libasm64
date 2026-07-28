@@ -2,6 +2,6 @@
 #include "array_private.h"
 #include "defs.h"
 
-void warr_fill(W_ARRAY *addr, uint16_t v) {
-  w_array_fill(addr, v);
+int warr_fill(W_ARRAY *addr, uint16_t v) {
+  return w_array_fill(addr, v);
 }

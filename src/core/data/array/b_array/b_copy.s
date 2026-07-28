@@ -4,7 +4,7 @@ b_array_copy:
   # b_array_copy(rdi = arr_src | rsi = arr_dest)
   sub rdi, 16
   sub rsi, 16
-  mov rcx, -1
+  mov ecx, -1
   cmp dword ptr [rdi], 0x59525241
   cmovnz rax, rcx
   jnz .exit
@@ -13,7 +13,7 @@ b_array_copy:
   jnz .exit
   mov edx, dword ptr [rdi+12]
   cmp edx, dword ptr [rsi+8]
-  mov rcx, -3
+  mov ecx, -3
   cmova rax, rcx
   ja .exit
   mov dword ptr [rsi+12], edx

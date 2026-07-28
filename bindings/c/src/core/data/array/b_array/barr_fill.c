@@ -2,6 +2,6 @@
 #include "array_private.h"
 #include "defs.h"
 
-void barr_fill(B_ARRAY *addr, uint8_t v) {
-  b_array_fill(addr, v);
+int barr_fill(B_ARRAY *addr, uint8_t v) {
+  return b_array_fill(addr, v);
 }

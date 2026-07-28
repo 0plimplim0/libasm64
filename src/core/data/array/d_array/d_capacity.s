@@ -5,9 +5,12 @@ d_array_capacity:
   xor eax, eax
   sub rdi, 16
   cmp dword ptr [rdi], 0x59525241
-  mov rcx, -1
-  cmovnz rax, rcx
-  jnz .exit
+  mov ecx, -1
+  jnz .err
   mov eax, dword ptr [rdi+8]
 .exit:
   ret
+.err:
+  mov dword ptr [_errno+rip], ecx
+  ret
+  

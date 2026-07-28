@@ -4,7 +4,7 @@ b_array_append:
   # b_array_append(rdi = arr_src | rsi = arr_dest)
   sub rdi, 16
   sub rsi, 16
-  mov rcx, -1
+  mov ecx, -1
   cmp dword ptr [rdi], 0x59525241
   cmovnz rax, rcx
   jnz .exit
@@ -14,7 +14,7 @@ b_array_append:
   mov edx, dword ptr [rsi+8]
   sub edx, dword ptr [rsi+12]
   cmp edx, dword ptr [rdi+12]
-  mov rcx, -3
+  mov ecx, -3
   cmovb rax, rcx
   jb .exit
   lea rcx, [rsi+12]

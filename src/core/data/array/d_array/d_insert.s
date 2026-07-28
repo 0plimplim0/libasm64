@@ -16,14 +16,16 @@ d_array_insert:
   mov r8d, dword ptr [rdi+12]
   cmp edx, r8d
   mov rcx, -4
-  cmovae rax, rcx
-  jae .exit
+  cmova rax, rcx
+  ja .exit
   mov ecx, dword ptr [rdi+12]
-  dec ecx
   add rdi, 16
+  test ecx, ecx
+  jz .endloop
+  dec ecx
 .loop:
   cmp ecx, edx
-  jb .endloop
+  jl .endloop
   shl qword ptr [rdi+rcx*4], 32
   dec ecx
   jmp .loop
