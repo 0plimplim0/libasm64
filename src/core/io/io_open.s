@@ -14,9 +14,6 @@ io_open:
   mov r13, r8       # buff_size
   mov r14, rdx      # IO_STREAM_addr
   mov rdx, r9       # mode
-  test rsi, 0x40      # 0_CREAT
-  xor ecx, ecx
-  cmovz edx, ecx
   mov eax, 2
   syscall
   cmp rax, 0
