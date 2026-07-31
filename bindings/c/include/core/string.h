@@ -9,7 +9,7 @@ uint32_t strchr(const char *s, char v);
 int strcmp(const char *s1, const char *s2, uint32_t limit);
 void strcpy(char *dest, const char *src);
 void strrev(char *s);
-int strsplit(void *dest, char *s, char delimiter);
+int strsplit(void *dest, char *s, char c);    // Destroy s
 int strstrip(char *s, char v);
 void tolower(char *s);
 void tolower_raw(char *s);
