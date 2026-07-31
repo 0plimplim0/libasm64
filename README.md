@@ -12,7 +12,7 @@ To compile and link the library you'll need the standard GNU development tools:
 * `as` (GNU Assembler)
 * `ar` (GNU Archiver)
 * `make` (GNU Make)
-* `gcc` (GNU Compiler Collection)
+* `gcc` (GNU Compiler)
 
 ---
 
