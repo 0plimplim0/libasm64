@@ -17,7 +17,7 @@
 | **Allocations** (`b_array_new`, `mem_alloc`) | `Pointer` (Success) / `0` (on Error) | Yes |
 | **Queries** (`b_array_get`, `str_len`) | `Value` / `0` (on Error) | Yes |
 
-**Note:** Function `errno` returns _errno and resets _errno. For functions that sets _errno.
+**Note:** Function `errno` returns the current _errno state for functions that set it, and sets it to 0.
 
 ---
 
