@@ -1,9 +1,13 @@
 # String utils
 
 ## Index
+
+**[Go back to modules](index.md).**
+
 - [str_cat](#str_cat)
 - [str_chr](#str_chr)
 - [str_cmp](#str_cmp)
+- [str_cpy](#str_cpy)
 - [str_len](#str_len)
 - [str_rev](#str_rev)
 - [str_split](#str_split)
@@ -14,6 +18,8 @@
 - [str_toupper_raw](#str_toupper_raw)
 - [str_uatoi64](#str_uatoi64)
 - [str_uitoa64](#str_uitoa64)
+- [str_atoi64](#str_atoi64)
+- [str_itoa64](#str_itoa64)
 
 ## Functions
 
@@ -36,7 +42,7 @@
 - `RDI`: str_addr
 - `RSI`: char
 
-**Returns:** An offset in `RAX` pointing to the char position if it is found, -1 if not.
+**Returns:** An offset pointing to the char position if it is found, -1 if not.
 
 ---
 
@@ -48,7 +54,18 @@
 - `RSI`: str2_addr
 - `RDX`: limit (default=no_limit)
 
-**Returns:** **0** in `RAX` if equal, -1 if not.
+**Returns:** **0** if equal, -1 if not.
+
+---
+
+### str_cpy
+**Copies a string**
+
+**Inputs:**
+- `RDI`: dest_addr
+- `RSI`: src_addr
+
+**Returns:** Bytes copied.
 
 ---
 
@@ -59,7 +76,7 @@
 - `RDI`: str_addr
 - `RSI`: char_limiter (default=0x0)
 
-**Returns:** String length in `RAX`.
+**Returns:** String length.
 
 ---
 
@@ -140,17 +157,17 @@
 ---
 
 ### str_uatoi64
-**Converts an ascii number into a 64bit integer**
+**Converts an ascii number into a unsigned 64bit integer**
 
 **Inputs:**
 - `RDI`: str_addr
 
-**Returns:** integer in `RAX`.
+**Returns:** Unsigned integer.
 
 ---
 
 ### str_uitoa64
-**Converts an 64bits integer into ascii**
+**Converts an unsigned 64bits integer into ascii**
 
 **Inputs:**
 - `RDI`: integer
@@ -159,3 +176,22 @@
 **Returns:** None. (Modifies **dest_addr**)
 
 ---
+
+### str_atoi64
+**Converts an ascii number into a 64bit integer**
+
+**Inputs:**
+- `RDI`: str_addr
+
+**Returns:** Integer.
+
+---
+
+### str_itoa64
+**Converts a 64bits integer into ascii**
+
+**Inputs:**
+- `RDI`: integer
+- `RSI`: dest_addr
+
+**Returns:** None. (Modifies **dest_addr**)
