@@ -50,6 +50,33 @@ make dist
 - **Core** - Standard low-level routines.
 
 ---
+
+## Examples
+
+The [`examples/`](examples/) directory contains small, self-contained C programs demonstrating how to use each core module.
+
+* [`01_hello_world.c`](examples/01_hello_world.c) - Basic I/O (`print`, `exit`)
+* [`02_strings.c`](examples/02_strings.c) - String manipulation & numeric conversions (`strlen`, `toupper`, `uitoa64`)
+* [`03_memory.c`](examples/03_memory.c) - Dynamic memory allocation & management (`malloc`, `memset`, `free`)
+* [`04_arrays.c`](examples/04_arrays.c) - Dynamic arrays (`Q_ARRAY` / `qarr_*` operations)
+* [`05_file_io.c`](examples/05_file_io.c) - File stream operations (`fopen`, `fwrite`, `fflush`, `fclose`)
+
+### Running Examples
+
+Navigate to the `examples/` directory and use the Makefile:
+
+```bash
+cd examples
+
+# Build and run a specific example by its prefix (e.g., 01)
+make n=01
+./01_hello_world
+
+# Build all examples at once
+make
+```
+
+---
 ## Documentation
 
 The detailed reference for functions and calling conventions is divided by language:
