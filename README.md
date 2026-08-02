@@ -12,7 +12,7 @@ To compile and link the library you'll need the standard GNU development tools:
 * `as` (GNU Assembler)
 * `ar` (GNU Archiver)
 * `make` (GNU Make)
-* `gcc` (GNU Compiler)
+* `gcc` (GNU Compiler Collection)
 
 ---
 
@@ -72,9 +72,17 @@ cd examples
 make n=01
 ./01_hello_world
 
-# Build all examples at once
+# Build every example
 make
 ```
+
+---
+
+## Showcase
+
+The [`showcase/`](showcase/) directory contains larger example programs built on top of libasm64.
+
+* [Brainfuck Interpreter](showcase/brainfuck_interpreter.c)
 
 ---
 ## Documentation
