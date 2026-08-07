@@ -1,6 +1,6 @@
 # Libasm64
 
-A modular low-level library ecosystem written in pure x86-64 Assembly. Its core provides standard functionality while additional modules extend it with specialized capabilities such as compression, windowing and more.
+A modular low-level library ecosystem written in pure x86-64 Assembly. Its core provides standard functionality while additional modules extend it with specialized capabilities. (There are no additional modules yet)
 
 > **NOTE:** This project targets **Linux x86-64** and is not intended to be linked with **glibc**. Programs should be built using the provided build templates.
 
